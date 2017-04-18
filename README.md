@@ -5,6 +5,9 @@
 ## Build Setup
 [demo演示地址](https://whevether.github.io/vue-backtop/)
 --- 用了canvas 来绘制箭头，不依赖css.可以自己改变 样式颜色
+`
+<BackTop :defaultProps="55" :date="1000"></BackTop>
+`
 ``` bash
 # 安装
 npm install --save vue-backtop
