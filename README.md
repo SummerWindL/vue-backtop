@@ -3,7 +3,8 @@
 > 一个vue 滚动到顶部插件
 
 ## Build Setup
-[demo演示地址]()
+[demo演示地址](https://whevether.github.io/vue-backtop/)
+--- 用了canvas 来绘制箭头，不依赖css.可以自己改变 样式颜色
 ``` bash
 # 安装
 npm install --save vue-backtop
