@@ -19,10 +19,12 @@ export default {
         'position': 'fixed',
         'right': '30px',
         'bottom': '20px',
-        'cursor': 'pointer',
-        'borderRadius': '50%',
-        'border': '1px solid #eee'
-      }
+        'cursor': 'pointer'
+      },
+      'x': 0,
+      'y': 0,
+      'translateY': 0,
+      'angle': 0
     }
   },
   props: {
@@ -33,6 +35,10 @@ export default {
     date: {
       type: Number,
       default: 500
+    },
+    color: {
+      type: String,
+      default: '#6495ED'
     }
   },
   mounted () {
@@ -40,29 +46,36 @@ export default {
     window.addEventListener('scroll',this.hanScroll)
   },
   methods: {
-    darw(color) {
+    canvas (ctx,color){
+      ctx.save();
+      ctx.translate(this.x,this.translateY)
+      ctx.lineWidth = 1
+      ctx.fillStyle = color
+      ctx.strokeStyle = color
+      ctx.beginPath()
+      ctx.moveTo(this.x-this.x,-(this.y-15))
+      ctx.lineTo(-this.x,this.y) //left
+      ctx.lineTo(this.x,this.y) //right
+      ctx.closePath()
+      ctx.fill()
+      ctx.stroke()
+      ctx.restore()
+    },
+    darw() {
       let canvas = document.getElementById('canvas');
       let ctx = canvas.getContext('2d')
-      let x = canvas.width /2;
-      let y = canvas.height /2;
-      let colors = (color)?color:'#AAD7FF'
+      let vx = 0
+      let vy = 0
+      this.x = canvas.width /2;
+      this.y = canvas.height /2;
       window.requestAnimationFrame(()=>{
         ctx.clearRect(0,0,canvas.width,canvas.height)
-        this.darw(colors)
+        this.darw()
+        this.translateY = canvas.height / 2 + Math.sin(this.angle) * 9
+        this.angle += 0.1
+        this.canvas(ctx, this.color)
       })
-      ctx.save();
-      ctx.translate(x,y);
-      ctx.lineWidth = 4;
-      ctx.fillStyle = color;
-      ctx.strokeStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(x-x,-y);
-      ctx.lineTo(-x,y-y); //右斜线
-      ctx.lineTo(x,y-y); //左横线
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
-      ctx.restore();
+      
     },
     hanScroll(){
       const scrollTop = this.getScroll(window)
